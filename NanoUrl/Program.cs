@@ -1,7 +1,6 @@
 using Azure.Identity;
 using NanoUrl.Models;
 using NanoUrl.Services;
-using MongoDB.Driver;
 
 var builder = WebApplication.CreateBuilder(args);
 
