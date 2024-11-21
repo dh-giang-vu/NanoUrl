@@ -39,6 +39,6 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-app.MapGet("/", () => "Hello World");
+app.MapGet("/", () => Environment.GetEnvironmentVariable("WebUri") ?? "Missing Environment Variable \"WebUri\"");
 
 app.Run();
