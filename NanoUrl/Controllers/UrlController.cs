@@ -35,6 +35,25 @@ public class UrlController : ControllerBase
         return Redirect(urlMapping.original);
     }
 
+    [HttpGet("/get/{shortCode}")]
+    [ProducesResponseType(200, Type = typeof(UrlMap))]
+    [ProducesResponseType(404, Type = typeof(ErrorResponse))]
+    public async Task<IActionResult> GetOriginalUrl(string shortCode)
+    {
+        // Fetch the original URL
+        var urlMapping = await _urlMapService.GetByShortCodeAsync(shortCode);
+        if (urlMapping == null)
+        {
+            return NotFound(new ErrorResponse
+            {
+                Message = "Short URL not found.",
+                Detail = $"{Environment.GetEnvironmentVariable("WebUri")}/{shortCode}"
+            });
+        }
+
+        return Ok(urlMapping);
+    }
+
     [HttpPost("custom")]
     [ProducesResponseType(200, Type = typeof(string))]
     [ProducesResponseType(400, Type = typeof(ErrorResponse))]
