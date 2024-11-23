@@ -58,8 +58,11 @@ public class UrlController : ControllerBase
     [ProducesResponseType(200, Type = typeof(string))]
     [ProducesResponseType(400, Type = typeof(ErrorResponse))]
     [ProducesResponseType(500, Type = typeof(ErrorResponse))]
-    public async Task<IActionResult> Post(string url, string shortCode)
+    public async Task<IActionResult> Post([FromBody] UrlMap map)
     {
+        string url = map.original;
+        string shortCode = map.shortCode;
+
         // Check if URL is well-formed
         bool isUrl = Uri.IsWellFormedUriString(url, UriKind.Absolute);
         if (!isUrl)
@@ -93,7 +96,7 @@ public class UrlController : ControllerBase
     [HttpPost("shorten")]
     [ProducesResponseType(200, Type = typeof(string))]
     [ProducesResponseType(400, Type = typeof(ErrorResponse))]
-    public async Task<IActionResult> Post(string url)
+    public async Task<IActionResult> Post([FromBody] string url)
     {
         // Check if URL is well-formed
         bool isUrl = Uri.IsWellFormedUriString(url, UriKind.Absolute);

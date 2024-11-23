@@ -9,6 +9,16 @@ builder.Configuration.AddAzureKeyVault(keyVaultEndpoint, new DefaultAzureCredent
 
 // Add services to the container.
 
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(policy =>
+    {
+        policy.AllowAnyOrigin()
+              .AllowAnyMethod()
+              .AllowAnyHeader();
+    });
+});
+
 builder.Services.Configure<DatabaseSettings>(options =>
 {
     options.ConnectionString = builder.Configuration["MongoConnectionString"];
@@ -24,6 +34,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
+
+app.UseCors();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
