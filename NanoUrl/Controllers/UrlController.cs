@@ -18,8 +18,9 @@ public class UrlController : ControllerBase
     }
 
     [HttpGet("{shortCode}")]
-    [ProducesResponseType(302)]
+    [ProducesResponseType(200)]
     [ProducesResponseType(404, Type = typeof(ErrorResponse))]
+    [ProducesResponseType(500, Type = typeof(ErrorResponse))]
     public async Task<IActionResult> RedirectToUrl(string shortCode)
     {
         // Fetch the original URL
@@ -32,6 +33,14 @@ public class UrlController : ControllerBase
             });
         }
 
+        // Check if the request originates from Swagger using the Referer header
+        var referer = Request.Headers["Referer"].ToString();
+        if (!string.IsNullOrEmpty(referer) && referer.Contains("swagger", StringComparison.OrdinalIgnoreCase))
+        {
+            return await ProxyRequest(urlMapping.original);
+        }
+
+        // Redirect for all other clients
         return Redirect(urlMapping.original);
     }
 
@@ -129,6 +138,9 @@ public class UrlController : ControllerBase
         return Ok($"{shortUrlPrefix}/{shortCode}");
     }
 
+    /**
+     * Encode a number to Base62
+     */
     private static string Base62Encode(int number)
     {
         const string chars = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -142,5 +154,40 @@ public class UrlController : ControllerBase
             index++;
         }
         return result.ToString();
+    }
+
+    /**
+     * Proxies the request to the original URL and returns the response.
+     * Helper function so that Swagger can bypass CORS restriction to display redirect result.
+     */
+    private async Task<IActionResult> ProxyRequest(string originalUrl)
+    {
+        using var httpClient = new HttpClient();
+        try
+        {
+            var response = await httpClient.GetAsync(originalUrl);
+            if (!response.IsSuccessStatusCode)
+            {
+                return StatusCode((int)response.StatusCode, new ErrorResponse
+                {
+                    Message = "Failed to fetch the original URL.",
+                    Detail = originalUrl
+                });
+            }
+
+            // Read the content and forward it to the client
+            var content = await response.Content.ReadAsByteArrayAsync();
+            var contentType = response.Content.Headers.ContentType?.ToString() ?? "application/octet-stream";
+
+            return File(content, contentType);
+        }
+        catch (HttpRequestException ex)
+        {
+            return StatusCode(500, new ErrorResponse
+            {
+                Message = "An error occurred while fetching the original URL.",
+                Detail = ex.Message
+            });
+        }
     }
 }
