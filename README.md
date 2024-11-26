@@ -94,10 +94,7 @@ This project demonstrates:
 ## Future Enhancements
 
 - Add analytics to track usage statistics for shortened URLs.
-- Implement user authentication for managing custom short codes.
 - Improve error handling and user-friendly response messages.
-
----
 
 ## License
 
