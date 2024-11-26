@@ -2,6 +2,16 @@
 
 NanoUrl is a web-based URL shortening service built using **C#** and the **.NET framework**, designed to provide a simple and secure way to create short URLs. The service includes features such as creating custom short URL, URL mapping retrieval, and redirection. It utilizes **MongoDB** for storing URL mappings, **Azure Key Vault** for securely managing secrets and **Azure App Service** for hosting the Web API.
 
+---
+
+### Quick Links
+
+- **API Host**: [NanoUrl API](https://nan0.azurewebsites.net)
+- **Interactive API Documentation**: [Swagger UI for NanoUrl](https://dh-giang-vu.github.io/NanoURL-OpenAPI)
+- **Example User Interface**: [NanoUrl Client UI](https://dh-giang-vu.github.io/NanoUrl-client)
+
+---
+
 ## Features
 
 - **Shorten URLs**: Generate unique short URLs for any valid input URL
