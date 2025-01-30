@@ -6,7 +6,7 @@ NanoUrl is a web-based URL shortening service built using **C#** and the **.NET 
 
 ### Quick Links
 
-- **API Host**: [NanoUrl API](https://nan0.azurewebsites.net)
+- **API Host**: [NanoUrl API](https://nan1.azurewebsites.net)
 - **Interactive API Documentation**: [Swagger UI for NanoUrl](https://dh-giang-vu.github.io/NanoURL-OpenAPI)
 - **Example User Interface**: [NanoUrl Client UI](https://dh-giang-vu.github.io/NanoUrl-client)
 
@@ -51,7 +51,7 @@ NanoUrl is a web-based URL shortening service built using **C#** and the **.NET 
 
   Response:
   ```json
-  "nan0.azurewebsites.net/abc123"
+  "nan1.azurewebsites.net/abc123"
   ```
 
 - **Create a Custom Short URL**:
@@ -68,11 +68,11 @@ NanoUrl is a web-based URL shortening service built using **C#** and the **.NET 
 
   Response:
   ```json
-  "nan0.azurewebsites.net/myUrl"
+  "nan1.azurewebsites.net/myUrl"
   ```
 
 ## Demo / Deployed Version
-- The live version of the API is hosted on Azure and can be accessed at: [https://nan0.azurewebsites.net](https://nan0.azurewebsites.net)
+- The live version of the API is hosted on Azure and can be accessed at: [https://nan1.azurewebsites.net](https://nan1.azurewebsites.net)
 
 - **Interactive API Documentation**: The OpenAPI specification, deployed with Swagger UI, is available [here](https://dh-giang-vu.github.io/NanoURL-OpenAPI/). Use this to explore and test the API endpoints interactively.
 
